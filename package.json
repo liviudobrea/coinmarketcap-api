@@ -4,7 +4,7 @@
   "description": "CoinMarketCap API wrapper for node",
   "license": "MIT",
   "repository": {
-    "url": "https://github.com/tiaanduplessis/coinmarketcap-api",
+    "url": "https://github.com/liviudobrea/coinmarketcap-api",
     "type": "git"
   },
   "homepage": "https://github.com/tiaanduplessis/coinmarketcap-api",
