@@ -10,11 +10,8 @@
   "homepage": "https://github.com/tiaanduplessis/coinmarketcap-api",
   "bugs": "https://github.com/tiaanduplessis/coinmarketcap-api",
   "main": "index.js",
-  "files": [
-    "index.js"
-  ],
   "scripts": {
-    "test": "jest",
+    "test": "jest tests",
     "test:cov": "npm run test -- --coverage",
     "lint": "standard --fix ./*.js",
     "start": "npm run test",
@@ -24,9 +21,7 @@
     "docs:html": "documentation build index.js -f html -o docs"
   },
   "jest": {
-    "setupFilesAfterEnv": [
-      "./test.js"
-    ]
+    "testTimeout": 10000
   },
   "author": "Tiaan du Plessis",
   "contributors": [
@@ -42,8 +37,9 @@
     "standard": "14.1.0"
   },
   "dependencies": {
-    "node-fetch": "^2.6.0",
-    "qs": "^6.7.0"
+    "@vercel/fetch": "^6.1.0",
+    "node-fetch": "^2.6.1",
+    "qs": "^6.10.1"
   },
   "standard": {
     "env": [
