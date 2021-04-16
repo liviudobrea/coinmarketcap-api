@@ -9,8 +9,8 @@ class CoinMarketCapPublicApi extends BaseClass {
   constructor (props) {
     super(props)
 
-    this.url = `${BASE_URL}`;
-    this.config.headers.Authorization = `Basic ${props.apiKey}`;
+    this.url = `${BASE_URL}`
+    this.config.headers.Authorization = `Basic ${props.apiKey}`
   }
 
   /**
@@ -33,7 +33,7 @@ class CoinMarketCapPublicApi extends BaseClass {
     const config = {
       ...this.config,
       body,
-      method: 'POST',
+      method: 'POST'
     }
 
     return createRequest({
@@ -65,7 +65,7 @@ class CoinMarketCapPublicApi extends BaseClass {
     const config = {
       ...this.config,
       method: 'POST',
-      body,
+      body
     }
 
     return createRequest({
@@ -100,7 +100,7 @@ class CoinMarketCapPublicApi extends BaseClass {
     const config = {
       ...this.config,
       method: 'POST',
-      body,
+      body
     }
 
     return createRequest({
@@ -131,7 +131,7 @@ class CoinMarketCapPublicApi extends BaseClass {
     const config = {
       ...this.config,
       method: 'POST',
-      body,
+      body
     }
 
     return createRequest({
@@ -158,7 +158,7 @@ class CoinMarketCapPublicApi extends BaseClass {
     const config = {
       ...this.config,
       method: 'POST',
-      body,
+      body
     }
 
     return createRequest({
@@ -221,7 +221,7 @@ class CoinMarketCapPublicApi extends BaseClass {
     const config = {
       ...this.config,
       method: 'POST',
-      body,
+      body
     }
 
     return createRequest({
@@ -261,7 +261,7 @@ class CoinMarketCapPublicApi extends BaseClass {
     const config = {
       ...this.config,
       method: 'POST',
-      body,
+      body
     }
 
     return createRequest({
@@ -288,12 +288,52 @@ class CoinMarketCapPublicApi extends BaseClass {
     const config = {
       ...this.config,
       method: 'POST',
-      body,
+      body
     }
 
     return createRequest({
       fetcher: this.fetcher,
       url: `${this.url}/asset/${this.version}/portfolio/delete`,
+      config
+    })
+  }
+
+  /**
+   * Get crypto votes
+   * @param {int} cryptoId
+   * @returns {Promise<*>|PromiseLike<*>}
+   */
+  getVotes (cryptoId) {
+    return createRequest({
+      fetcher: this.fetcher,
+      url: `${this.url}/data-api/${this.version}/cryptocurrency/vote`,
+      config: this.config,
+      query: { id: cryptoId }
+    })
+  }
+
+  /**
+   * Vote for crypto
+   * @param {object} options
+   * @param {int} options.cryptoId
+   * @param {int} options.vote (1 for Good, 2 for Bad)
+   * @returns {Promise<*>|PromiseLike<*>}
+   */
+  vote (options = {}) {
+    const body = {
+      cryptoId: options.cryptoId,
+      voted: options.vote
+    }
+
+    const config = {
+      ...this.config,
+      method: 'POST',
+      body
+    }
+
+    return createRequest({
+      fetcher: this.fetcher,
+      url: `${this.url}/data-api/${this.version}/cryptocurrency/vote`,
       config
     })
   }

@@ -1,14 +1,15 @@
 require('jest-extended')
 require('jest-chain')
-const { CoinMarketCapPublicApi: CoinMarketCap } = require('../index')
+const CoinMarketCap = require('../index')
+const { CoinMarketCapPublicApi } = CoinMarketCap
 
 require('dotenv').config()
 
-const API_KEY = process.env.COINMARKETCAP_API_TOKEN;
-const client = new CoinMarketCap({ apiKey: API_KEY, version: 'v3' })
+const API_KEY = process.env.COINMARKETCAP_API_TOKEN
+const client = new CoinMarketCapPublicApi({ apiKey: API_KEY, version: 'v3' })
 
 test('should be defined', () => {
-  expect(CoinMarketCap).toBeDefined()
+  expect(CoinMarketCapPublicApi).toBeDefined()
 })
 
 test('should return new CoinMarketCap client', () => {
@@ -24,7 +25,7 @@ test('should return new CoinMarketCap client', () => {
 })
 
 test('queryAssets should have correct response structure and type', async () => {
-  const response = await client.queryAssets();
+  const response = await client.queryAssets()
   expect(response).toContainAllKeys(['data', 'status'])
   expect(response).toHaveProperty('status.timestamp')
   expect(response).toHaveProperty('status.credit_count')
@@ -33,108 +34,108 @@ test('queryAssets should have correct response structure and type', async () => 
   expect(response.data).not.toBeEmpty()
   expect(response.data[0]).toBeObject()
   expect(response.data[0]).toContainKey('list')
-  expect(response.data[0].list).toBeArray();
+  expect(response.data[0].list).toBeArray()
   for (const listItem of response.data[0].list) {
-    expect(listItem).toBeObject();
-    expect(listItem).toContainAnyKeys(['amount', 'name', 'symbol', 'cryptocurrencyId']);
+    expect(listItem).toBeObject()
+    expect(listItem).toContainAnyKeys(['amount', 'name', 'symbol', 'cryptocurrencyId'])
   }
   expect(response.status.timestamp).toBeString()
 })
 
 test('queryStatistics should have correct response structure and type', async () => {
-  const response = await client.queryStatistics();
+  const response = await client.queryStatistics()
   expect(response).toContainAllKeys(['data', 'status'])
   expect(response).toHaveProperty('status.timestamp')
   expect(response).toHaveProperty('status.credit_count')
   expect(response).toHaveProperty('status.error_code')
   expect(response.data).toBeObject()
   expect(response.data).not.toBeEmpty()
-  expect(response.data).toContainAnyKeys(['bestName', 'worstName', 'pieCharts']);
-  expect(response.data.pieCharts).toBeArray();
+  expect(response.data).toContainAnyKeys(['bestName', 'worstName', 'pieCharts'])
+  expect(response.data.pieCharts).toBeArray()
   for (const chart of response.data.pieCharts) {
-    expect(chart).toBeObject();
-    expect(chart).toContainAnyKeys(['cryptoId', 'name', 'symbol', 'holdings']);
+    expect(chart).toBeObject()
+    expect(chart).toContainAnyKeys(['cryptoId', 'name', 'symbol', 'holdings'])
   }
   expect(response.status.timestamp).toBeString()
 })
 
 test('portfolioCoinDetail should have correct response structure and type', async () => {
-  const response = await client.portfolioCoinDetail({ cryptocurrencyId: 74 });
+  const response = await client.portfolioCoinDetail({ cryptocurrencyId: 74 })
   expect(response).toContainAllKeys(['data', 'status'])
   expect(response).toHaveProperty('status.timestamp')
   expect(response).toHaveProperty('status.credit_count')
   expect(response).toHaveProperty('status.error_code')
   expect(response.data).toBeObject()
   expect(response.data).not.toBeEmpty()
-  expect(response.data).toContainAnyKeys(['amount', 'name', 'slug', 'symbol']);
+  expect(response.data).toContainAnyKeys(['amount', 'name', 'slug', 'symbol'])
   expect(response.status.timestamp).toBeString()
 })
 
 test('queryTransactionsByCrypto should have correct response structure and type', async () => {
-  const response = await client.queryTransactionsByCrypto();
+  const response = await client.queryTransactionsByCrypto()
   expect(response).toContainAllKeys(['data', 'status'])
   expect(response).toHaveProperty('status.timestamp')
   expect(response).toHaveProperty('status.credit_count')
   expect(response).toHaveProperty('status.error_code')
   expect(response.data).toBeObject()
   expect(response.data).not.toBeEmpty()
-  expect(response.data).toContainAnyKeys(['currentPage', 'list', 'totalNum']);
-  expect(response.data.list).toBeArray();
+  expect(response.data).toContainAnyKeys(['currentPage', 'list', 'totalNum'])
+  expect(response.data.list).toBeArray()
   for (const item of response.data.list) {
-    expect(item).toBeObject();
-    expect(item).toContainAnyKeys(['id', 'amount', 'inputPrice', 'price']);
+    expect(item).toBeObject()
+    expect(item).toContainAnyKeys(['id', 'amount', 'inputPrice', 'price'])
   }
   expect(response.status.timestamp).toBeString()
 })
 
-describe('Can manage assets by adding, editing then removing 1 BTC', () => {;
-  let transactionId;
-  const cryptocurrencyId = 1; // BTC
-  const now = (new Date()).toISOString();
+describe('Can manage assets by adding, editing then removing 1 BTC', () => {
+  let transactionId
+  const cryptocurrencyId = 1 // BTC
+  const now = (new Date()).toISOString()
   const payload = {
     amount: 1,
     cryptoUnit: 2790,
     cryptocurrencyId: 1,
-    fee: "",
+    fee: '',
     fiatUnit: 2790,
-    note: "",
+    note: '',
     portfolioSourceId: 'default',
     price: 53161.08973374,
     transactionTime: now,
     transactionType: 'buy'
-  };
+  }
 
   test('Can add new asset', async () => {
-    const response = await client.addAsset(payload);
+    const response = await client.addAsset(payload)
     expect(response).toContainAllKeys(['data', 'status'])
     expect(response).toHaveProperty('status.timestamp')
     expect(response).toHaveProperty('status.credit_count')
     expect(response).toHaveProperty('status.error_code')
-    expect(response.data).toBeObject();
-    expect(response.data).toContainAnyKeys(['id', 'timeCreated', 'transactionType']);
-    expect(response.data.id).toBeString();
-    expect(response.data.id).not.toBeEmpty();
-    expect(response.data.transactionType).toEqual('buy');
-    transactionId = response.data.id;
+    expect(response.data).toBeObject()
+    expect(response.data).toContainAnyKeys(['id', 'timeCreated', 'transactionType'])
+    expect(response.data.id).toBeString()
+    expect(response.data.id).not.toBeEmpty()
+    expect(response.data.transactionType).toEqual('buy')
+    transactionId = response.data.id
 
-    const assets = await client.queryAssets({ pageSize: 100 });
+    const assets = await client.queryAssets({ pageSize: 100 })
     expect(assets.data).toBeArray()
     expect(assets.data[0]).toBeObject()
     expect(assets.data[0]).toContainKey('list')
-    expect(assets.data[0].list).toBeArray();
-    const assetIds = assets.data[0].list.map(item => item.cryptocurrencyId);
-    expect(assetIds.includes(cryptocurrencyId)).toBeTrue();
+    expect(assets.data[0].list).toBeArray()
+    const assetIds = assets.data[0].list.map(item => item.cryptocurrencyId)
+    expect(assetIds.includes(cryptocurrencyId)).toBeTrue()
 
     const transactions = await client.queryTransactionsByCrypto({
       cryptocurrencyId,
-      pageSize: 100,
-    });
-    expect(transactions.data).toBeObject();
-    expect(transactions.data).toContainKey('list');
-    expect(transactions.data.list).toBeArray();
-    const transactionIds = transactions.data.list.map(trans => trans.id);
-    expect(transactionIds.includes(transactionId)).toBeTrue();
-  });
+      pageSize: 100
+    })
+    expect(transactions.data).toBeObject()
+    expect(transactions.data).toContainKey('list')
+    expect(transactions.data.list).toBeArray()
+    const transactionIds = transactions.data.list.map(trans => trans.id)
+    expect(transactionIds.includes(transactionId)).toBeTrue()
+  })
 
   test('Can edit asset', async () => {
     const response = await client.updateAsset({
@@ -142,60 +143,60 @@ describe('Can manage assets by adding, editing then removing 1 BTC', () => {;
       cryptoUnit: 2790,
       cryptoUnitPrice: 1.19688809096349,
       cryptocurrencyId,
-      fee: "",
+      fee: '',
       fiatUnit: 2790,
       id: transactionId,
       inputPrice: 53161.08973374,
       inputUnit: 2790,
-      note: "",
-      portfolioSourceId: "default",
-      price: "53161.08973374",
+      note: '',
+      portfolioSourceId: 'default',
+      price: '53161.08973374',
       transactionTime: (new Date()).toISOString(),
-      transactionType: "buy"
-    });
+      transactionType: 'buy'
+    })
     expect(response).toContainAllKeys(['data', 'status'])
     expect(response).toHaveProperty('status.timestamp')
     expect(response).toHaveProperty('status.credit_count')
     expect(response).toHaveProperty('status.error_code')
-    expect(response.data).toBeObject();
-    expect(response.data).toContainAnyKeys(['id', 'timeCreated', 'transactionType']);
-    expect(response.data.id).toEqual(transactionId);
-    expect(response.data.amount).toEqual(0.75);
-  });
+    expect(response.data).toBeObject()
+    expect(response.data).toContainAnyKeys(['id', 'timeCreated', 'transactionType'])
+    expect(response.data.id).toEqual(transactionId)
+    expect(response.data.amount).toEqual(0.75)
+  })
 
   test('Can remove transaction in asset', async () => {
     const response = await client.removeAsset({
       id: transactionId,
-      cryptocurrencyId,
-    });
+      cryptocurrencyId
+    })
     expect(response).toContainAllKeys(['data', 'status'])
     expect(response).toHaveProperty('status.timestamp')
     expect(response).toHaveProperty('status.credit_count')
     expect(response).toHaveProperty('status.error_code')
-    expect(response.data).toBeTrue();
+    expect(response.data).toBeTrue()
 
     const transactions = await client.queryTransactionsByCrypto({
       cryptocurrencyId,
-      pageSize: 100,
-    });
-    expect(transactions.data).toBeObject();
-    expect(transactions.data).toContainKey('list');
-    expect(transactions.data.list).toBeArray();
-    const ids = transactions.data.list.map(trans => trans.id);
-    expect(ids.includes(transactionId)).toBeFalse();
-  });
+      pageSize: 100
+    })
+    expect(transactions.data).toBeObject()
+    expect(transactions.data).toContainKey('list')
+    expect(transactions.data.list).toBeArray()
+    const ids = transactions.data.list.map(trans => trans.id)
+    expect(ids.includes(transactionId)).toBeFalse()
+  })
 
   test('Can remove asset completely', async () => {
     const response = await client.removeAsset({
-      cryptocurrencyId,
-    });
+      cryptocurrencyId
+    })
     expect(response).toContainAllKeys(['data', 'status'])
     expect(response).toHaveProperty('status.timestamp')
     expect(response).toHaveProperty('status.credit_count')
     expect(response).toHaveProperty('status.error_code')
-    expect(response.data).toBeTrue();
+    expect(response.data).toBeTrue()
 
-    const assets = await client.queryAssets({ pageSize: 100 });
+    const assets = await client.queryAssets({ pageSize: 100 })
     expect(assets).toContainAllKeys(['data', 'status'])
     expect(assets).toHaveProperty('status.timestamp')
     expect(assets).toHaveProperty('status.credit_count')
@@ -203,48 +204,86 @@ describe('Can manage assets by adding, editing then removing 1 BTC', () => {;
     expect(assets.data).toBeArray()
     expect(assets.data[0]).toBeObject()
     expect(assets.data[0]).toContainKey('list')
-    expect(assets.data[0].list).toBeArray();
-    const ids = assets.data[0].list.map(item => item.cryptocurrencyId);
-    expect(ids.includes(cryptocurrencyId)).toBeFalse();
-  });
-});
+    expect(assets.data[0].list).toBeArray()
+    const ids = assets.data[0].list.map(item => item.cryptocurrencyId)
+    expect(ids.includes(cryptocurrencyId)).toBeFalse()
+  })
+})
 
 test('querySpotlight should have correct response structure and type', async () => {
   const response = await client.querySpotlight({
-    rankRange: 100,
-  });
+    rankRange: 100
+  })
   expect(response).toContainAllKeys(['data', 'status'])
   expect(response).toHaveProperty('status.timestamp')
   expect(response).toHaveProperty('status.credit_count')
   expect(response).toHaveProperty('status.error_code')
   expect(response.data).toBeObject()
   expect(response.data).not.toBeEmpty()
-  expect(response.data).toContainAllKeys(['gainerList', 'loserList']);
-  expect(response.data.gainerList).toBeArray();
-  expect(response.data.loserList).toBeArray();
+  expect(response.data).toContainAllKeys(['gainerList', 'loserList'])
+  expect(response.data.gainerList).toBeArray()
+  expect(response.data.loserList).toBeArray()
   for (const item of response.data.loserList.concat(response.data.gainerList)) {
-    expect(item).toBeObject();
-    expect(item).toContainAnyKeys(['id', 'amount', 'inputPrice', 'price']);
+    expect(item).toBeObject()
+    expect(item).toContainAnyKeys(['id', 'amount', 'inputPrice', 'price'])
   }
   expect(response.status.timestamp).toBeString()
 })
 
 test('queryWatchlist should have correct response structure and type', async () => {
-  const response = await client.queryWatchlist();
+  const response = await client.queryWatchlist()
   expect(response).toContainAllKeys(['data', 'status'])
   expect(response).toHaveProperty('status.timestamp')
   expect(response).toHaveProperty('status.credit_count')
   expect(response).toHaveProperty('status.error_code')
   expect(response.data).toBeObject()
   expect(response.data).not.toBeEmpty()
-  expect(response.data).toContainKey('watchLists');
-  expect(response.data.watchLists).toBeArray();
+  expect(response.data).toContainKey('watchLists')
+  expect(response.data.watchLists).toBeArray()
   for (const list of response.data.watchLists) {
-    expect(list).toBeObject();
-    expect(list).toContainKey('cryptoCurrencies');
+    expect(list).toBeObject()
+    expect(list).toContainKey('cryptoCurrencies')
     for (const coin of list.cryptoCurrencies) {
-      expect(coin).toContainAnyKeys(['id', 'amount', 'inputPrice', 'price']);
+      expect(coin).toContainAnyKeys(['id', 'amount', 'inputPrice', 'price'])
     }
   }
   expect(response.status.timestamp).toBeString()
+})
+
+describe('Read initial votes for a coin, place a vote than confirm it has been propagated', () => {
+  const cryptocurrencyId = 1 + Math.ceil(Math.random() * 1000) // random coin
+  const vote = 1 // positive
+
+  beforeAll(async () => {
+    const coinMarketCap = new CoinMarketCap({
+      apiKey: process.env.COINMARKETCAP_API_KEY,
+      version: 'v1'
+    })
+    const response = await coinMarketCap.getMetadata({ id: cryptocurrencyId })
+    console.info(`Coin is: ${response.data[cryptocurrencyId].name}`)
+  })
+
+  test('Read votes before voting', async () => {
+    const response = await client.getVotes(cryptocurrencyId)
+    expect(response).toContainAllKeys(['data', 'status'])
+    expect(response).toHaveProperty('status.timestamp')
+    expect(response).toHaveProperty('status.credit_count')
+    expect(response).toHaveProperty('status.error_code')
+    expect(response.data).toBeObject()
+    expect(response.data).not.toBeEmpty()
+    expect(response.data).toContainAllKeys(['cryptoVoted', 'hasVoted'])
+    expect(response.data.cryptoVoted).toBeObject()
+  })
+
+  test('Place vote', async () => {
+    const response = await client.vote({
+      cryptoId: cryptocurrencyId,
+      vote
+    })
+    expect(response).toContainAllKeys(['data', 'status'])
+    expect(response).toHaveProperty('status.timestamp')
+    expect(response).toHaveProperty('status.credit_count')
+    expect(response).toHaveProperty('status.error_code')
+    expect(response.data).toEqual(cryptocurrencyId)
+  })
 })
