@@ -16,12 +16,14 @@ class CoinMarketCapPrivateApi extends BaseClass {
   /**
    * Get a paginated list of all cryptocurrencies by CoinMarketCap ID.
    *
-   * @param {Object=} options Options for the request:
-   * @param {String=} [options.listingStatus="active"] active or inactive coins
-   * @param {Number|String=} [options.start=1] Return results from rank start and above
-   * @param {Number|String=} options.limit Only returns limit number of results
-   * @param {String[]|String=} options.symbol Comma separated list of symbols, will ignore the other options
-   * @param {String=} [options.sort="id"] Sort results by the options at https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap
+   * @param {Object=} args Options for the request:
+   * @param {String=} [args.listingStatus="active"] active or inactive coins
+   * @param {Number|String=} [args.start=1] Return results from rank start and above
+   * @param {Number|String=} args.limit Only returns limit number of results
+   * @param {String[]|String=} args.symbol Comma separated list of symbols, will ignore the other
+   * options
+   * @param {String=} [args.sort="id"] Sort results by the options at
+   * https://coinmarketcap.com/api/documentation/v1/#operation/getV1CryptocurrencyMap
    *
    * @example
    * const client = new CoinMarketCap('api key')
@@ -50,9 +52,9 @@ class CoinMarketCapPrivateApi extends BaseClass {
    * Get static metadata for one or more cryptocurrencies.
    * Either id or symbol is required, but passing in both is not allowed.
    *
-   * @param {Object=} options Options for the request:
-   * @param {Array|String|Number=} options.id One or more comma separated cryptocurrency IDs
-   * @param {String[]|String} options.symbol One or more comma separated cryptocurrency symbols
+   * @param {Object=} args Options for the request:
+   * @param {Array|String|Number=} args.id One or more comma separated cryptocurrency IDs
+   * @param {String[]|String} args.symbol One or more comma separated cryptocurrency symbols
    *
    * @example
    * const client = new CoinMarketCap('api key')
@@ -75,13 +77,15 @@ class CoinMarketCapPrivateApi extends BaseClass {
    * Start and limit options can only be used when currency or ID is not given.
    * Currency and ID cannot be passed in at the same time.
    *
-   * @param {Object=} options Options for the request
-   * @param {Number|String=} [options.start=1] Return results from rank start and above
-   * @param {Number|String=} [options.limit=100] Only returns limit number of results [1..5000]
-   * @param {String[]|String=} [options.convert="USD"] Return info in terms of another currency
-   * @param {String=} [options.sort="market_cap"] Sort results by the options at https://pro.coinmarketcap.com/api/v1#operation/getV1CryptocurrencyListingsLatest
-   * @param {String=} options.sortDir Direction in which to order cryptocurrencies ("asc" | "desc")
-   * @param {String=} [options.cryptocurrencyType="all"] Type of cryptocurrency to include ("all" | "coins" | "tokens")
+   * @param {Object=} args Options for the request
+   * @param {Number|String=} [args.start=1] Return results from rank start and above
+   * @param {Number|String=} [args.limit=100] Only returns limit number of results [1..5000]
+   * @param {String[]|String=} [args.convert="USD"] Return info in terms of another currency
+   * @param {String=} [args.sort="market_cap"] Sort results by the options at
+   * https://pro.coinmarketcap.com/api/v1#operation/getV1CryptocurrencyListingsLatest
+   * @param {String=} args.sortDir Direction in which to order cryptocurrencies ("asc" | "desc")
+   * @param {String=} [args.cryptocurrencyType="all"] Type of cryptocurrency to include ("all" |
+   * "coins" | "tokens")
    *
    * @example
    * const client = new CoinMarketCap('api key')
@@ -125,10 +129,10 @@ class CoinMarketCapPrivateApi extends BaseClass {
   /**
    * Get latest market quote for 1 or more cryptocurrencies.
    *
-   * @param {Object=} options Options for the request:
-   * @param {Array|String|Number=} options.id One or more comma separated cryptocurrency IDs
-   * @param {String[]|String=} options.symbol One or more comma separated cryptocurrency symbols
-   * @param {String[]|String=} [options.convert="USD"] Return quotes in terms of another currency
+   * @param {Object=} args Options for the request:
+   * @param {Array|String|Number=} args.id One or more comma separated cryptocurrency IDs
+   * @param {String[]|String=} args.symbol One or more comma separated cryptocurrency symbols
+   * @param {String[]|String=} [args.convert="USD"] Return quotes in terms of another currency
    *
    * @example
    * const client = new CoinMarketCap('api key')
@@ -156,8 +160,8 @@ class CoinMarketCapPrivateApi extends BaseClass {
   /**
    * Get global information
    *
-   * @param {Object|String[]|String=} options Options for the request:
-   * @param {String[]|String=} [options.convert="USD"] Return quotes in terms of another currency
+   * @param {Object|String[]|String=} convert Options for the request:
+   * @param {String[]|String=} [convert.convert="USD"] Return quotes in terms of another currency
    *
    * @example
    * const client = new CoinMarketCap()

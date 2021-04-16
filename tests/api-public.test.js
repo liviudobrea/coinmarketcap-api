@@ -5,13 +5,13 @@ const { CoinMarketCapPublicApi: CoinMarketCap } = require('../index')
 require('dotenv').config()
 
 const API_KEY = process.env.COINMARKETCAP_API_TOKEN;
+const client = new CoinMarketCap({ apiKey: API_KEY, version: 'v3' })
 
 test('should be defined', () => {
   expect(CoinMarketCap).toBeDefined()
 })
 
 test('should return new CoinMarketCap client', () => {
-  const client = new CoinMarketCap({ apiKey: API_KEY, version: 'v3' })
   expect(client.queryAssets).toBeDefined()
   expect(client.queryStatistics).toBeDefined()
   expect(client.portfolioCoinDetail).toBeDefined()
@@ -24,7 +24,6 @@ test('should return new CoinMarketCap client', () => {
 })
 
 test('queryAssets should have correct response structure and type', async () => {
-  const client = new CoinMarketCap({ apiKey: API_KEY, version: 'v3' })
   const response = await client.queryAssets();
   expect(response).toContainAllKeys(['data', 'status'])
   expect(response).toHaveProperty('status.timestamp')
@@ -43,7 +42,6 @@ test('queryAssets should have correct response structure and type', async () => 
 })
 
 test('queryStatistics should have correct response structure and type', async () => {
-  const client = new CoinMarketCap({ apiKey: API_KEY, version: 'v3' })
   const response = await client.queryStatistics();
   expect(response).toContainAllKeys(['data', 'status'])
   expect(response).toHaveProperty('status.timestamp')
@@ -61,7 +59,6 @@ test('queryStatistics should have correct response structure and type', async ()
 })
 
 test('portfolioCoinDetail should have correct response structure and type', async () => {
-  const client = new CoinMarketCap({ apiKey: API_KEY, version: 'v3' })
   const response = await client.portfolioCoinDetail({ cryptocurrencyId: 74 });
   expect(response).toContainAllKeys(['data', 'status'])
   expect(response).toHaveProperty('status.timestamp')
@@ -74,7 +71,6 @@ test('portfolioCoinDetail should have correct response structure and type', asyn
 })
 
 test('queryTransactionsByCrypto should have correct response structure and type', async () => {
-  const client = new CoinMarketCap({ apiKey: API_KEY, version: 'v3' })
   const response = await client.queryTransactionsByCrypto();
   expect(response).toContainAllKeys(['data', 'status'])
   expect(response).toHaveProperty('status.timestamp')
@@ -91,8 +87,7 @@ test('queryTransactionsByCrypto should have correct response structure and type'
   expect(response.status.timestamp).toBeString()
 })
 
-describe('Can manage assets by adding, editing then removing 1 BTC', () => {
-  const client = new CoinMarketCap({ apiKey: API_KEY, version: 'v3' });
+describe('Can manage assets by adding, editing then removing 1 BTC', () => {;
   let transactionId;
   const cryptocurrencyId = 1; // BTC
   const now = (new Date()).toISOString();
@@ -215,7 +210,6 @@ describe('Can manage assets by adding, editing then removing 1 BTC', () => {
 });
 
 test('querySpotlight should have correct response structure and type', async () => {
-  const client = new CoinMarketCap({ apiKey: API_KEY, version: 'v3' })
   const response = await client.querySpotlight({
     rankRange: 100,
   });
@@ -236,7 +230,6 @@ test('querySpotlight should have correct response structure and type', async () 
 })
 
 test('queryWatchlist should have correct response structure and type', async () => {
-  const client = new CoinMarketCap({ apiKey: API_KEY, version: 'v3' })
   const response = await client.queryWatchlist();
   expect(response).toContainAllKeys(['data', 'status'])
   expect(response).toHaveProperty('status.timestamp')

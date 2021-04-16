@@ -16,13 +16,13 @@ class CoinMarketCapPublicApi extends BaseClass {
   /**
    * Get account statistics information
    *
-   * @param {Object} options Payload for the request
+   * @param {Object} [options] Payload for the request
    * @param {int} options.cryptoUnit
    * @param {int} options.fiatUnit
    * @param {string} options.portfolioSourceId
    * @returns {Promise<*>} Info about portfolio
    */
-  queryStatistics (options) {
+  queryStatistics (options = {}) {
     const body = {
       portfolioSourceId: 'default',
       cryptoUnit: 2790,
@@ -46,14 +46,14 @@ class CoinMarketCapPublicApi extends BaseClass {
   /**
    * Get a list of holdings from the portfolio
    *
-   * @param {Object} options Payload for the request
+   * @param {Object} [options] Payload for the request
    * @param {int} options.cryptoUnit
    * @param {int} options.currentPage
    * @param {int} options.pageSize
    * @param {string} options.portfolioSourceId
    * @returns {Promise<*>} Info about portfolio
    */
-  queryAssets (options) {
+  queryAssets (options = {}) {
     const body = {
       portfolioSourceId: 'default',
       cryptoUnit: 2790,
@@ -87,7 +87,7 @@ class CoinMarketCapPublicApi extends BaseClass {
    * @param {string} options.portfolioSourceId
    * @returns {Promise<*>|PromiseLike<*>}
    */
-  queryTransactionsByCrypto (options) {
+  queryTransactionsByCrypto (options = {}) {
     const body = {
       portfolioSourceId: 'default',
       cryptoUnit: 2790,
@@ -120,7 +120,7 @@ class CoinMarketCapPublicApi extends BaseClass {
    * @param {string} options.portfolioSourceId
    * @returns {Promise<*>|PromiseLike<*>}
    */
-  portfolioCoinDetail (options) {
+  portfolioCoinDetail (options = {}) {
     const body = {
       portfolioSourceId: 'default',
       fiatUnit: 2790,
@@ -143,12 +143,12 @@ class CoinMarketCapPublicApi extends BaseClass {
 
   /**
    * Returns a list of watched elements
-   * @param {object} options
+   * @param {object} [options]
    * @param {string} options.watchListType
    * @param {int} options.aux
    * @returns {Promise<*>|PromiseLike<*>}
    */
-  queryWatchlist (options) {
+  queryWatchlist (options = {}) {
     const body = {
       watchListType: 'ORDINARY',
       aux: 5,
@@ -170,14 +170,14 @@ class CoinMarketCapPublicApi extends BaseClass {
 
   /**
    * Returns a list of gainers and losers
-   * @param {object} args
+   * @param {object} [args]
    * @param {int} args.dataType
    * @param {int} args.limit
    * @param {string} args.timeFrame
    * @param {int} args.rankRange
    * @returns {Promise<*>|PromiseLike<*>}
    */
-  querySpotlight (args) {
+  querySpotlight (args = {}) {
     const query = {
       dataType: 2,
       limit: 30,
@@ -208,7 +208,7 @@ class CoinMarketCapPublicApi extends BaseClass {
    * @param {string} options.transactionType
    * @returns {Promise<*>} Confirmation
    */
-  addAsset (options) {
+  addAsset (options = {}) {
     const body = {
       portfolioSourceId: 'default',
       cryptoUnit: 2790,
@@ -250,7 +250,7 @@ class CoinMarketCapPublicApi extends BaseClass {
    * @param {string} options.transactionType
    * @returns {Promise<*>} Confirmation
    */
-  updateAsset (options) {
+  updateAsset (options = {}) {
     const body = {
       portfolioSourceId: 'default',
       note: '',
@@ -279,7 +279,7 @@ class CoinMarketCapPublicApi extends BaseClass {
    * @param {string} options.portfolioSourceId
    * @returns {Promise<*>} Confirmation
    */
-  removeAsset (options) {
+  removeAsset (options = {}) {
     const body = {
       portfolioSourceId: 'default',
       ...options
