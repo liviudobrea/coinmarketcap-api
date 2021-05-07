@@ -9,8 +9,8 @@ class CoinMarketCapPrivateApi extends BaseClass {
   constructor (props) {
     super(props)
 
-    this.url = `${BASE_URL}/${this.version}`;
-    this.config.headers['X-CMC_PRO_API_KEY'] = props.apiKey;
+    this.url = `${BASE_URL}/${this.version}`
+    this.config.headers['X-CMC_PRO_API_KEY'] = props.apiKey
   }
 
   /**
@@ -186,6 +186,49 @@ class CoinMarketCapPrivateApi extends BaseClass {
       url: `${this.url}/global-metrics/quotes/latest`,
       config: this.config,
       query: convert
+    })
+  }
+
+  /**
+   *
+   * @param args
+   */
+  convertCurrency (args = {}) {
+    const { amount, id, symbol, time, convert_id, convert } = args
+
+    if (!(id || symbol)) {
+      throw new Error('You need to provide at least id or symbol of base coin.')
+    }
+
+    if (!(convert_id || convert)) {
+      throw new Error('You need to provide at least id or symbol of convert coin.')
+    }
+
+    const opts = {
+      amount
+    }
+
+    if (time) {
+      opts.time = time
+    }
+
+    if (id) {
+      opts.id = id
+    } else if (symbol) {
+      opts.symbol = symbol
+    }
+
+    if (convert_id) {
+      opts.convert_id = convert_id
+    } else if (convert) {
+      opts.convert = convert
+    }
+
+    return createRequest({
+      fetcher: this.fetcher,
+      url: `${this.url}/tools/price-conversion`,
+      config: this.config,
+      query: opts
     })
   }
 }

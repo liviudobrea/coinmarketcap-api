@@ -124,6 +124,18 @@ test('should get quotes', async () => {
   }
 })
 
+test('convert currency', async () => {
+  const quotes = await client.convertCurrency({ amount: 1, symbol: 'DOGE', convert: 'EUR' });
+  expect(typeof quotes).toBe('object')
+  expect(quotes).toContainAllKeys(['data', 'status'])
+  expect(quotes).toHaveProperty('status.timestamp')
+  expect(quotes).toHaveProperty('status.error_code')
+  expect(typeof quotes.data).toBe('object')
+  expect(quotes.data.symbol).toBe('DOGE');
+  expect(quotes.data.quote).toHaveProperty('EUR');
+  expect(quotes.data.quote.EUR).toHaveProperty('price')
+});
+
 test('can pass in an array of currencies to convert for getQuotes', async () => {
   const quotes = await client.getQuotes({ id: [1, 2], convert: ['USD'] })
 
