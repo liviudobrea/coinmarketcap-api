@@ -4,8 +4,8 @@
   "description": "CoinMarketCap API wrapper for node",
   "license": "MIT",
   "repository": {
-    "url": "https://github.com/liviudobrea/coinmarketcap-api",
-    "type": "git"
+    "type": "git",
+    "url": "git://github.com/liviudobrea/coinmarketcap-api.git"
   },
   "homepage": "https://github.com/tiaanduplessis/coinmarketcap-api",
   "bugs": "https://github.com/tiaanduplessis/coinmarketcap-api",
@@ -57,5 +57,8 @@
     "hooks": {
       "pre-commit": "npm run lint"
     }
+  },
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com"
   }
 }
