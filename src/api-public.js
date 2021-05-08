@@ -337,6 +337,54 @@ class CoinMarketCapPublicApi extends BaseClass {
       config
     })
   }
+
+  /**
+   * Convert any crypto/currency pair at real time price
+   *
+   * @param {Object} args Options for the request
+   *
+   * @example
+   * const client = new CoinMarketCap()
+   * client.convertCurrency({ symbol: 'ETH', currency: 'eur', amount: 1 });
+   */
+  convertCurrency (args = {}) {
+    const { amount, id, symbol, time, convert_id, convert } = args
+
+    if (!(id || symbol)) {
+      throw new Error('You need to provide at least id or symbol of base coin.')
+    }
+
+    if (!(convert_id || convert)) {
+      throw new Error('You need to provide at least id or symbol of convert coin.')
+    }
+
+    const opts = {
+      amount
+    }
+
+    if (time) {
+      opts.time = time
+    }
+
+    if (id) {
+      opts.id = id
+    } else if (symbol) {
+      opts.symbol = symbol
+    }
+
+    if (convert_id) {
+      opts.convert_id = convert_id
+    } else if (convert) {
+      opts.convert = convert
+    }
+
+    return createRequest({
+      fetcher: this.fetcher,
+      url: 'https://web-api.coinmarketcap.com/v1/tools/price-conversion',
+      config: this.config,
+      query: opts
+    })
+  }
 }
 
 module.exports = CoinMarketCapPublicApi

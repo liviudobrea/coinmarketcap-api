@@ -287,3 +287,15 @@ describe('Read initial votes for a coin, place a vote than confirm it has been p
     expect(response.data).toEqual(cryptocurrencyId)
   })
 })
+
+test('Convert currency', async () => {
+  const quotes = await client.convertCurrency({ amount: 1, symbol: 'DOGE', convert: 'EUR' });
+  expect(typeof quotes).toBe('object')
+  expect(quotes).toContainAllKeys(['data', 'status'])
+  expect(quotes).toHaveProperty('status.timestamp')
+  expect(quotes).toHaveProperty('status.error_code')
+  expect(typeof quotes.data).toBe('object')
+  expect(quotes.data.symbol).toBe('DOGE');
+  expect(quotes.data.quote).toHaveProperty('EUR');
+  expect(quotes.data.quote.EUR).toHaveProperty('price')
+});

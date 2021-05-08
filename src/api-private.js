@@ -190,8 +190,13 @@ class CoinMarketCapPrivateApi extends BaseClass {
   }
 
   /**
+   * Convert any crypto/currency pair at real time price
    *
-   * @param args
+   * @param {Object} args Options for the request
+   *
+   * @example
+   * const client = new CoinMarketCap()
+   * client.convertCurrency({ symbol: 'ETH', currency: 'eur', amount: 1 });
    */
   convertCurrency (args = {}) {
     const { amount, id, symbol, time, convert_id, convert } = args
